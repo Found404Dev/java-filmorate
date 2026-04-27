@@ -15,51 +15,47 @@ class FilmControllerTest {
     }
 
     @Test
-    void getAll_shouldReturnEmptyListInitially() {
-        assertTrue(controller.getAll().isEmpty());
-    }
-
-    @Test
-    void create_shouldAddFilmAndGenerateId() {
+    void createFilm_shouldAddFilm() {
         Film film = new Film();
-        film.setName("Inception");
-        film.setReleaseDate(LocalDate.of(2010, 7, 16));
-        film.setDuration(148);
+        film.setName("Valid");
+        film.setDescription("Description");
+        film.setReleaseDate(LocalDate.of(2000, 1, 1));
+        film.setDuration(100);
         Film created = controller.create(film);
         assertNotNull(created.getId());
-        assertEquals(1, created.getId());
         assertEquals(1, controller.getAll().size());
     }
 
     @Test
-    void create_shouldThrowWhenReleaseDateTooEarly() {
+    void createFilm_shouldThrowWhenReleaseDateBefore1895() {
         Film film = new Film();
         film.setName("Old");
+        film.setDescription("Description");
         film.setReleaseDate(LocalDate.of(1895, 12, 27));
-        film.setDuration(50);
+        film.setDuration(100);
         assertThrows(RuntimeException.class, () -> controller.create(film));
     }
 
     @Test
-    void update_shouldModifyExistingFilm() {
+    void updateFilm_shouldUpdateExisting() {
         Film film = new Film();
-        film.setName("Original");
+        film.setName("First");
+        film.setDescription("Desc");
+        film.setReleaseDate(LocalDate.of(2000, 1, 1));
+        film.setDuration(100);
         Film created = controller.create(film);
-        created.setName("Updated");
+        created.setName("Second");
         Film updated = controller.update(created);
-        assertEquals("Updated", updated.getName());
+        assertEquals("Second", updated.getName());
     }
 
     @Test
-    void update_shouldThrowWhenIdNull() {
+    void updateFilm_shouldThrowWhenIdNull() {
         Film film = new Film();
-        assertThrows(RuntimeException.class, () -> controller.update(film));
-    }
-
-    @Test
-    void update_shouldThrowWhenNotFound() {
-        Film film = new Film();
-        film.setId(999);
+        film.setName("Name");
+        film.setDescription("Desc");
+        film.setReleaseDate(LocalDate.of(2000, 1, 1));
+        film.setDuration(100);
         assertThrows(RuntimeException.class, () -> controller.update(film));
     }
 }

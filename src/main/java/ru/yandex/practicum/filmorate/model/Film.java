@@ -13,6 +13,7 @@ public class Film {
     public Integer getId() {
         return id;
     }
+
     public void setId(Integer id) {
         this.id = id;
     }
@@ -20,6 +21,7 @@ public class Film {
     public String getName() {
         return name;
     }
+
     public void setName(String name) {
         this.name = name;
     }
@@ -27,6 +29,7 @@ public class Film {
     public String getDescription() {
         return description;
     }
+
     public void setDescription(String description) {
         this.description = description;
     }
@@ -34,6 +37,7 @@ public class Film {
     public LocalDate getReleaseDate() {
         return releaseDate;
     }
+
     public void setReleaseDate(LocalDate releaseDate) {
         this.releaseDate = releaseDate;
     }
@@ -41,6 +45,7 @@ public class Film {
     public Integer getDuration() {
         return duration;
     }
+
     public void setDuration(Integer duration) {
         this.duration = duration;
     }

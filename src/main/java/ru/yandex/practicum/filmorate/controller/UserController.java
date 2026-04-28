@@ -4,6 +4,7 @@ import org.springframework.web.bind.annotation.*;
 import ru.yandex.practicum.filmorate.model.User;
 import java.time.LocalDate;
 import java.util.*;
+import ru.yandex.practicum.filmorate.exception.ValidationException;
 
 @RestController
 @RequestMapping("/users")
@@ -31,10 +32,10 @@ public class UserController {
     @PutMapping
     public User update(@RequestBody User user) {
         if (user.getId() == null) {
-            throw new RuntimeException("Id должен быть указан");
+            throw new ValidationException("Id должен быть указан");
         }
         if (!users.containsKey(user.getId())) {
-            throw new RuntimeException("Пользователь не найден");
+            throw new ValidationException("Пользователь не найден");
         }
         validateUser(user);
         if (user.getName() == null || user.getName().isBlank()) {
@@ -46,13 +47,13 @@ public class UserController {
 
     private void validateUser(User user) {
         if (user.getEmail() == null || !user.getEmail().contains("@")) {
-            throw new RuntimeException("Email должен быть указан и содержать символ @");
+            throw new ValidationException("Email должен быть указан и содержать символ @");
         }
         if (user.getLogin() == null || user.getLogin().isBlank() || user.getLogin().contains(" ")) {
-            throw new RuntimeException("Логин не может быть пустым и содержать пробелы");
+            throw new ValidationException("Логин не может быть пустым и содержать пробелы");
         }
         if (user.getBirthday() != null && user.getBirthday().isAfter(LocalDate.now())) {
-            throw new RuntimeException("Дата рождения не может быть в будущем");
+            throw new ValidationException("Дата рождения не может быть в будущем");
         }
     }
 }

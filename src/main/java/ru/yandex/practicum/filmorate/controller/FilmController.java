@@ -4,6 +4,7 @@ import org.springframework.web.bind.annotation.*;
 import ru.yandex.practicum.filmorate.model.Film;
 import java.time.LocalDate;
 import java.util.*;
+import ru.yandex.practicum.filmorate.exception.ValidationException;
 
 @RestController
 @RequestMapping("/films")
@@ -29,10 +30,10 @@ public class FilmController {
     @PutMapping
     public Film update(@RequestBody Film film) {
         if (film.getId() == null) {
-            throw new RuntimeException("Id должен быть указан");
+            throw new ValidationException("Id должен быть указан");
         }
         if (!films.containsKey(film.getId())) {
-            throw new RuntimeException("Фильм не найден");
+            throw new ValidationException("Фильм не найден");
         }
         validateFilm(film);
         films.put(film.getId(), film);
@@ -41,16 +42,16 @@ public class FilmController {
 
     private void validateFilm(Film film) {
         if (film.getName() == null || film.getName().isBlank()) {
-            throw new RuntimeException("Название не может быть пустым");
+            throw new ValidationException("Название не может быть пустым");
         }
         if (film.getDescription() != null && film.getDescription().length() > 200) {
-            throw new RuntimeException("Описание не должно превышать 200 символов");
+            throw new ValidationException("Описание не должно превышать 200 символов");
         }
         if (film.getReleaseDate() != null && film.getReleaseDate().isBefore(MIN_RELEASE)) {
-            throw new RuntimeException("Дата релиза не может быть раньше 28 декабря 1895 года");
+            throw new ValidationException("Дата релиза не может быть раньше 28 декабря 1895 года");
         }
         if (film.getDuration() == null || film.getDuration() <= 0) {
-            throw new RuntimeException("Продолжительность должна быть положительной");
+            throw new ValidationException("Продолжительность должна быть положительной");
         }
     }
 }

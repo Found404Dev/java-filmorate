@@ -32,10 +32,10 @@ public class UserController {
     @PutMapping
     public User update(@RequestBody User user) {
         if (user.getId() == null) {
-            throw new ValidationException("Id должен быть указан");
+            throw new RuntimeException("Id должен быть указан");
         }
         if (!users.containsKey(user.getId())) {
-            throw new ValidationException("Пользователь не найден");
+            throw new RuntimeException("Пользователь не найден");
         }
         validateUser(user);
         if (user.getName() == null || user.getName().isBlank()) {

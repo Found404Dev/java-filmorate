@@ -30,10 +30,10 @@ public class FilmController {
     @PutMapping
     public Film update(@RequestBody Film film) {
         if (film.getId() == null) {
-            throw new ValidationException("Id должен быть указан");
+            throw new RuntimeException("Id должен быть указан");
         }
         if (!films.containsKey(film.getId())) {
-            throw new ValidationException("Фильм не найден");
+            throw new RuntimeException("Фильм не найден");
         }
         validateFilm(film);
         films.put(film.getId(), film);
